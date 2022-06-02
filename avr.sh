@@ -1,8 +1,8 @@
 #!/bin/sh
 
-VOLUME=8
-OUT="A"
-INPUT="sacd-cd"
+VOLUME=0
+OUT=""
+INPUT=""
 SERVER="192.168.20.30"
 rest_id=1
 VERBOSE=0
@@ -90,12 +90,12 @@ function rest_call {
 }
 
 # change volume
-rest_call "audio" '{"id":'$rest_id',"method":"setAudioVolume","params":[{"volume":"'$VOLUME'","output":""}],"version":"1.1"}'
+[[ $VOLUME -ne 0 ]] && rest_call "audio" '{"id":'$rest_id',"method":"setAudioVolume","params":[{"volume":"'$VOLUME'","output":""}],"version":"1.1"}'
 
 # change input
-rest_call "avContent" '{"id":'$rest_id',"method":"setPlayContent","params":[{"output":"extOutput:zone?zone=1","uri":"extInput:'$INPUT'"}],"version":"1.2"}'
+[[ $INPUT ]] && rest_call "avContent" '{"id":'$rest_id',"method":"setPlayContent","params":[{"output":"extOutput:zone?zone=1","uri":"extInput:'$INPUT'"}],"version":"1.2"}'
 
 # change speaker pattern
-rest_call "audio" '{"id":'$rest_id',"method":"setSpeakerSettings","params":[{"settings":[{"value":"speaker'$OUT'","target":"speakerSelection"}]}],"version":"1.0"}'
+[[ $OUT ]] && rest_call "audio" '{"id":'$rest_id',"method":"setSpeakerSettings","params":[{"settings":[{"value":"speaker'$OUT'","target":"speakerSelection"}]}],"version":"1.0"}'
 
 # set pure direct
