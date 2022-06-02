@@ -72,7 +72,8 @@ if [[ ${#} -eq 0 ]]; then
    exit
 fi
 
-
+# lib: rest module
+# payload: json payload to post to the module
 function rest_call {
 
   local lib="$1"
